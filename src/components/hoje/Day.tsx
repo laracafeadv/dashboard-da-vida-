@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { MAX_PRIORITIES, routineFor, routineKey, useStore, useToast } from '@/lib/store';
 import { useUI } from '@/lib/ui';
-import type { CalendarEvent, Goal, Task } from '@/lib/types';
+import type { Goal, Task } from '@/lib/types';
 import { MixTitle } from './Title';
 
 const enter = {
@@ -66,24 +66,6 @@ export function Priorities({ tasks, suggestion, readOnly }: { tasks: Task[]; sug
           </li>
         )}
       </ol>
-    </Section>
-  );
-}
-
-/* ---------------- agenda ---------------- */
-export function Agenda({ events }: { events: CalendarEvent[] }) {
-  if (events.length === 0) return null;
-  const sorted = [...events].sort((a, b) => a.start.localeCompare(b.start));
-  return (
-    <Section title="Agenda" note="Compromissos do dia (exemplo; a ligação com o Google Agenda vem depois).">
-      <ul className="agenda">
-        {sorted.map((e) => (
-          <li key={e.id} className={e.free ? 'free' : ''}>
-            <time className="tabular">{e.start}</time>
-            <span>{e.free ? 'livre, de propósito' : e.title}{e.place && !e.free ? <em> · {e.place}</em> : null}</span>
-          </li>
-        ))}
-      </ul>
     </Section>
   );
 }

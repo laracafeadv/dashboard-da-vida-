@@ -45,7 +45,7 @@ src/
   components/
     shell/           topo, navegação do celular, login, avisos
     caderno/         registro rápido, imagens, busca
-    hoje/            frontispício, anotar, resumo, prioridades, tarefas, agenda, rotina, metas, fechar o dia
+    hoje/            frontispício, anotar, resumo, prioridades, tarefas, rotina, metas, fechar o dia
     ui/ornaments     ornamentos, selo e ícones
   lib/
     parse.ts         entende "pagar IPVA sexta 15h #finanças !"
@@ -61,7 +61,7 @@ docs/
 
 ## Estado atual
 
-- Identidade "Papel": fontes da referência (Cormorant Garamond em versais + Instrument Serif itálico), papel claro e tinta escura, uma coluna com muito respiro. Tela **Hoje** enxuta: prioridades, agenda, lista do dia (tarefas + rotina), metas em uma linha e encerrar o dia.
+- Identidade "Papel": fontes da referência (Cormorant Garamond em versais + Instrument Serif itálico), papel claro e tinta escura, uma coluna com muito respiro. Tela **Hoje** enxuta: prioridades, lista do dia (tarefas + rotina), metas em uma linha e encerrar o dia.
 - Motivos visuais em `src/components/ui/vintage.tsx`; cores e fontes em `src/app/globals.css` (`:root`).
 - **Caderno**: pensamentos e referências com texto, ditado, prints e fotos; temas, pastas, busca, edição com histórico de versões. A IA entra depois.
 - **Nuvem**: login por e-mail e senha e sincronização automática, ligados quando as variáveis do Supabase estão configuradas.

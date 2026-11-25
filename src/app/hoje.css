@@ -37,12 +37,6 @@
 .prio li.slot .num { color: var(--faint); }
 .prio li.slot .text { font-style: italic; color: var(--muted); font-size: 1.05rem; }
 
-/* agenda */
-.agenda { list-style: none; }
-.agenda li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; padding: 6px 0; }
-.agenda time { font-family: var(--f-accent); font-style: italic; font-size: 1.1rem; color: var(--accent); }
-.agenda em { color: var(--muted); }
-.agenda li.free { color: var(--muted); font-style: italic; }
 
 /* lista do dia */
 .list { list-style: none; }

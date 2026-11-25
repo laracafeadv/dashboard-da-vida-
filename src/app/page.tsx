@@ -5,7 +5,7 @@ import { buildBriefing } from '@/lib/briefing';
 import { routineFor, tasksFor, useStore, useToast } from '@/lib/store';
 import type { Goal } from '@/lib/types';
 import { Frontispiece } from '@/components/hoje/Frontispiece';
-import { Agenda, DayList, GoalsLine, Priorities } from '@/components/hoje/Day';
+import { DayList, GoalsLine, Priorities } from '@/components/hoje/Day';
 import { CloseDay } from '@/components/hoje/CloseDay';
 
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
@@ -19,7 +19,6 @@ export default function HojePage() {
   const sample = useStore((s) => s.sample);
   const clearSample = useStore((s) => s.clearSample);
   const tasks = useStore((s) => s.tasks);
-  const events = useStore((s) => s.events);
   const routine = useStore((s) => s.routine);
   const toast = useToast((s) => s.show);
 
@@ -38,18 +37,16 @@ export default function HojePage() {
 
   const isToday = selected === today;
   const dayTasks = tasksFor(tasks, selected);
-  const dayEvents = events.filter((e) => e.date === selected);
   const dayRoutine = routineFor(routine, selected);
-  const brief = buildBriefing(dayTasks, dayEvents, dayRoutine, isToday);
+  const brief = buildBriefing(dayTasks, [], dayRoutine, isToday);
 
   // Resumo em uma frase.
   const open = dayTasks.filter((t) => !t.done).length + dayRoutine.length;
-  const commitments = dayEvents.filter((e) => !e.free).length;
   const stuck = dayTasks.find((t) => !t.done && !t.star && t.rolled >= 3);
   const summary =
-    open + commitments === 0
+    open === 0
       ? 'Dia livre por enquanto.'
-      : `${commitments ? `${plural(commitments, 'compromisso', 'compromissos')} e ` : ''}${plural(open, 'coisa para fazer', 'coisas para fazer')}.` +
+      : `${plural(open, 'coisa para fazer', 'coisas para fazer')}.` +
         (stuck && isToday ? ` “${stuck.title}” pede uma decisão.` : '');
 
   const bump = (g: Goal) => { setBumped(g.id); setTimeout(() => setBumped(null), 1300); };
@@ -64,7 +61,6 @@ export default function HojePage() {
         </aside>
       )}
       <Priorities tasks={dayTasks} suggestion={brief.suggestion} readOnly={!isToday} />
-      <Agenda events={dayEvents} />
       <DayList date={selected} today={today} tasks={dayTasks} onGoal={bump} />
       <GoalsLine bumped={bumped} />
       {isToday && <CloseDay date={selected} />}
