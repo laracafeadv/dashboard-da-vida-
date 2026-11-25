@@ -1,0 +1,92 @@
+/* Página de comparação de identidades (etapa 1). Tudo escopado em .sp-page. */
+.sp-page { display: flex; flex-direction: column; gap: 28px; font-family: system-ui, sans-serif; }
+.sp-intro { padding: 12px 0 4px; }
+.sp-intro p { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.sp-intro h1 { font-size: 2rem; font-weight: 600; margin: 4px 0; }
+.sp-intro span { color: var(--muted); }
+
+.sp-opt { --bg: #fff; --card: #fff; --ink: #111; --muted: #777; --line: #ddd; --accent: #333; --accent-2: #999; --on-accent: #fff;
+  --display: serif; --body: sans-serif; --label: sans-serif;
+  background: var(--bg); color: var(--ink); border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px -20px rgba(0,0,0,.4); }
+
+.sp-label { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--line); background: var(--card); font-family: system-ui, sans-serif; }
+.sp-letter { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: var(--ink); color: var(--bg); font-weight: 600; }
+.sp-label strong { font-size: 1.05rem; }
+.sp-label p { font-size: 0.86rem; color: var(--muted); max-width: 60ch; }
+.sp-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; font-size: 0.78rem; color: var(--muted); }
+.sp-sw { display: flex; gap: 4px; }
+.sp-sw i { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); }
+
+.sp-ui { padding: 34px 36px 38px; font-family: var(--body); }
+.sp-eyebrow { font-family: var(--label); font-size: 0.74rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.sp-display { font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 4.4vw, 3.4rem); line-height: 1.05; margin-top: 10px; letter-spacing: -0.01em; text-wrap: balance; }
+.sp-display em { color: var(--accent); }
+.sp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 28px; }
+.sp-card { background: var(--card); border: 1px solid var(--line); padding: 22px 24px; }
+.sp-title { font-family: var(--display); font-weight: 400; font-size: 1.5rem; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.sp-list { list-style: none; }
+.sp-list li { display: grid; grid-template-columns: 30px 1fr 20px; gap: 12px; align-items: center; padding: 11px 0; border-top: 1px solid var(--line); }
+.sp-list li:first-child { border-top: 0; padding-top: 0; }
+.sp-n { font-family: var(--display); font-size: 1.7rem; line-height: 1; color: var(--accent); }
+.sp-t { font-size: 0.98rem; font-weight: 500; }
+.sp-t small { display: block; font-weight: 400; font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+.done .sp-t { text-decoration: line-through; color: var(--muted); }
+.sp-check { width: 18px; height: 18px; border: 1.5px solid var(--ink); border-radius: 50%; }
+.sp-check.on { background: var(--accent); border-color: var(--accent); }
+.sp-goal { margin-bottom: 14px; }
+.sp-goal > div:first-child { display: flex; justify-content: space-between; font-size: 0.92rem; }
+.sp-goal b { font-weight: 500; }
+.sp-goal span { color: var(--muted); font-variant-numeric: tabular-nums; }
+.sp-bar { height: 5px; background: var(--line); margin-top: 7px; }
+.sp-bar i { display: block; height: 100%; background: var(--accent); }
+.sp-body { font-size: 0.95rem; line-height: 1.6; color: var(--ink); margin-top: 6px; }
+.sp-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.sp-btn { background: var(--ink); color: var(--bg); padding: 10px 18px; font-family: var(--label); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.sp-opt .sp-btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+
+/* A — Ateliê */
+.sp-atelie { --bg: #f4efe8; --card: #fbf8f3; --ink: #1a1717; --muted: #857b74; --line: #e4dbd0; --accent: #b9857e; --accent-2: #b8a07a;
+  --display: var(--sp-bodoni), serif; --body: var(--sp-figtree), sans-serif; --label: var(--sp-figtree), sans-serif; }
+.sp-atelie .sp-display { font-weight: 400; }
+.sp-atelie .sp-display em { font-style: italic; }
+.sp-atelie .sp-card { border-color: #e4dbd0; border-top: 1px solid #b8a07a; }
+.sp-atelie .sp-title { font-style: italic; border-bottom-color: #b8a07a; }
+.sp-atelie .sp-n { font-style: italic; }
+
+/* B — Botica */
+.sp-botica { --bg: #ece6d8; --card: #f6f2e8; --ink: #2a2a22; --muted: #7a7463; --line: #d8cfbb; --accent: #7b2d2d; --accent-2: #5b6340;
+  --display: var(--sp-garamond), serif; --body: var(--sp-garamond), serif; --label: var(--sp-cinzel), serif; }
+.sp-botica .sp-ui { font-size: 1.06rem; }
+.sp-botica .sp-display { font-style: italic; }
+.sp-botica .sp-display em { color: var(--accent-2); }
+.sp-botica .sp-title { font-family: var(--sp-cinzel), serif; font-size: 1.05rem; letter-spacing: 0.12em; text-align: center; border-bottom: 0; }
+.sp-botica .sp-title::after { content: ''; display: block; width: 60px; height: 5px; margin: 10px auto 0; border-top: 1px solid var(--accent-2); border-bottom: 1px solid var(--accent-2); }
+.sp-botica .sp-card { outline: 1px solid var(--line); outline-offset: -6px; }
+.sp-botica .sp-bar i { background: var(--accent-2); }
+.sp-botica .sp-check.on { background: var(--accent-2); border-color: var(--accent-2); }
+
+/* C — Belle Époque */
+.sp-belle { --bg: #edeee8; --card: #f8f8f4; --ink: #2b2a33; --muted: #7b7a82; --line: #dcdcd3; --accent: #6b4a63; --accent-2: #8a9a86;
+  --display: var(--sp-italiana), serif; --body: var(--sp-lora), serif; --label: var(--sp-lora), serif; }
+.sp-belle .sp-display { font-size: clamp(2.2rem, 5vw, 3.8rem); letter-spacing: 0.01em; }
+.sp-belle .sp-display em { font-style: normal; }
+.sp-belle .sp-title { font-size: 1.7rem; letter-spacing: 0.02em; }
+.sp-belle .sp-card { border-radius: 2px; }
+.sp-belle .sp-bar { height: 3px; }
+.sp-belle .sp-bar i { background: var(--accent-2); }
+.sp-belle .sp-btn { background: var(--accent); }
+
+/* D — Clube */
+.sp-clube { --bg: #efe7da; --card: #f8f3ea; --ink: #241c17; --muted: #84776b; --line: #ddd0bd; --accent: #6e1f24; --accent-2: #b08a4a;
+  --display: var(--sp-gloock), serif; --body: var(--sp-manrope), sans-serif; --label: var(--sp-manrope), sans-serif; }
+.sp-clube .sp-card { border: 0; box-shadow: 0 1px 0 var(--line), 0 14px 28px -22px rgba(36, 28, 23, .5); border-top: 3px solid var(--accent); }
+.sp-clube .sp-title { border-bottom-color: var(--accent-2); }
+.sp-clube .sp-bar i { background: var(--accent-2); }
+.sp-clube .sp-btn { background: var(--accent); }
+
+@media (max-width: 800px) {
+  .sp-grid { grid-template-columns: 1fr; }
+  .sp-label { grid-template-columns: auto 1fr; }
+  .sp-meta { grid-column: 1 / -1; align-items: flex-start; }
+  .sp-ui { padding: 24px 18px; }
+}
