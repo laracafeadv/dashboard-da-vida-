@@ -1,7 +1,6 @@
 'use client';
 import { fromISO, MONTHS, WEEKDAYS, WEEKDAYS_SHORT, weekOf } from '@/lib/dates';
 import { useStore } from '@/lib/store';
-import { Capture } from './Capture';
 
 interface Props { today: string; selected: string; onSelect: (d: string) => void; summary: string }
 
@@ -25,6 +24,7 @@ export function Frontispiece({ today, selected, onSelect, summary }: Props) {
       <p className="front-date">{d.getDate()} de {MONTHS[d.getMonth()]}</p>
       <p className="front-summary">{summary}</p>
 
+      <p className="week-label">ver outro dia</p>
       <nav className="week" aria-label="Dias da semana">
         {weekOf(today).map((iso) => {
           const day = fromISO(iso);
@@ -36,7 +36,6 @@ export function Frontispiece({ today, selected, onSelect, summary }: Props) {
         })}
       </nav>
 
-      {isToday && <Capture today={today} />}
     </header>
   );
 }

@@ -16,6 +16,8 @@ export default function HojePage() {
   const [selected, setSelected] = useState('');
   const [bumped, setBumped] = useState<string | null>(null);
   const rollover = useStore((s) => s.rollover);
+  const sample = useStore((s) => s.sample);
+  const clearSample = useStore((s) => s.clearSample);
   const tasks = useStore((s) => s.tasks);
   const events = useStore((s) => s.events);
   const routine = useStore((s) => s.routine);
@@ -43,16 +45,24 @@ export default function HojePage() {
   // Resumo em uma frase.
   const open = dayTasks.filter((t) => !t.done).length + dayRoutine.length;
   const commitments = dayEvents.filter((e) => !e.free).length;
-  const stuck = dayTasks.find((t) => !t.done && t.rolled >= 3);
+  const stuck = dayTasks.find((t) => !t.done && !t.star && t.rolled >= 3);
   const summary =
-    `${plural(commitments, 'compromisso', 'compromissos')} e ${plural(open, 'coisa para fazer', 'coisas para fazer')}.` +
-    (stuck && isToday ? ` “${stuck.title}” pede uma decisão.` : '');
+    open + commitments === 0
+      ? 'Dia livre por enquanto.'
+      : `${commitments ? `${plural(commitments, 'compromisso', 'compromissos')} e ` : ''}${plural(open, 'coisa para fazer', 'coisas para fazer')}.` +
+        (stuck && isToday ? ` “${stuck.title}” pede uma decisão.` : '');
 
   const bump = (g: Goal) => { setBumped(g.id); setTimeout(() => setBumped(null), 1300); };
 
   return (
     <article className="day">
       <Frontispiece today={today} selected={selected} onSelect={setSelected} summary={summary} />
+      {sample && (
+        <aside className="sample-note">
+          <p>Estas tarefas, rotina e metas são <b>exemplos</b> para você conhecer o Diário.</p>
+          <button className="pill-btn" onClick={() => { clearSample(); toast('Pronto. Agora é só adicionar as suas coisas pelo botão +.'); }}>apagar exemplos e começar</button>
+        </aside>
+      )}
       <Priorities tasks={dayTasks} suggestion={brief.suggestion} readOnly={!isToday} />
       <Agenda events={dayEvents} />
       <DayList date={selected} today={today} tasks={dayTasks} onGoal={bump} />

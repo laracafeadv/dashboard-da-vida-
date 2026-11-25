@@ -19,11 +19,17 @@ interface State {
   focos: string[];
   lastSeen: string;
   notes: Note[];
+  /** Verdadeiro enquanto os dados de exemplo não foram apagados. */
+  sample: boolean;
 
   /** Leva para hoje o que ficou aberto em dias anteriores. Retorna quantas tarefas migraram. */
   rollover: (today: string) => number;
   addTask: (p: ParsedCapture) => { ok: boolean; demoted: boolean };
   toggleTask: (id: string) => void;
+  updateTask: (id: string, patch: Partial<Pick<Task, 'title' | 'date' | 'star' | 'waiting'>>) => void;
+  deleteTask: (id: string) => void;
+  /** Apaga os exemplos (tarefas, rotina, metas, agenda) e começa do zero. Mantém o Caderno. */
+  clearSample: () => void;
   toggleStar: (id: string) => boolean;
   triage: (id: string, action: TriageAction, today: string) => void;
   toggleRoutine: (date: string, routineId: string) => Goal | undefined;
@@ -53,6 +59,7 @@ export const useStore = create<State>()(
       closes: {},
       lastSeen: todayISO(),
       notes: [],
+      sample: true,
 
       rollover: (today) => {
         let moved = 0;
@@ -79,6 +86,18 @@ export const useStore = create<State>()(
         set({ tasks: [...get().tasks, task] });
         return { ok: true, demoted };
       },
+
+      updateTask: (id, patch) => {
+        const t = get().tasks.find((x) => x.id === id);
+        if (!t) return;
+        // Mudar a data por escolha própria não conta como adiamento.
+        const moved = patch.date !== undefined && patch.date !== t.date;
+        set({ tasks: get().tasks.map((x) => (x.id === id ? { ...x, ...patch, rolled: moved ? 0 : x.rolled, star: moved ? false : patch.star ?? x.star } : x)) });
+      },
+
+      deleteTask: (id) => set({ tasks: get().tasks.filter((t) => t.id !== id) }),
+
+      clearSample: () => set({ tasks: [], routine: [], goals: [], events: [], routineDone: {}, closes: {}, focos: [], sample: false }),
 
       toggleTask: (id) =>
         set({ tasks: get().tasks.map((t) => (t.id === id ? { ...t, done: !t.done, doneAt: !t.done ? new Date().toISOString() : undefined } : t)) }),

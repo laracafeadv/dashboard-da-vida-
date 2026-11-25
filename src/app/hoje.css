@@ -104,3 +104,17 @@
   .dialog { padding: 32px 20px 26px; }
 }
 .front + .section { border-top: 0; padding-top: 16px; }
+
+/* ---------- clareza ---------- */
+.week-label { margin-top: 30px; font-style: italic; font-size: 0.88rem; color: var(--faint); }
+.week { margin-top: 8px; }
+.tap { text-align: left; cursor: pointer; }
+.tap:hover .text, .prio .tap:hover { text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 4px; }
+.prio .text b { font-weight: 500; }
+.prio li.slot .pill-btn { margin-left: 6px; font-size: 0.86rem; padding: 3px 12px; }
+.list .meta.warn { color: var(--accent); }
+.list li { grid-template-columns: 17px minmax(0, 1fr); }
+.empty-block { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 18px; font-style: italic; color: var(--muted); }
+.sample-note { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; margin: 0 0 32px; padding: 18px 20px; border: 1px dashed var(--faint); font-style: italic; color: var(--muted); }
+.sample-note b { font-style: normal; color: var(--ink); font-weight: 500; }
+.caderno-add { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }

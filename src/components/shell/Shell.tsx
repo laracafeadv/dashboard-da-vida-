@@ -7,14 +7,15 @@ import { useToast } from '@/lib/store';
 import { useCloudSync } from '@/lib/sync';
 import { supabase, cloudEnabled } from '@/lib/supabase';
 import { Login } from './Login';
+import { useUI } from '@/lib/ui';
+import { AddSheet } from '@/components/add/AddSheet';
+import { TaskSheet } from '@/components/hoje/TaskSheet';
 import { Icon } from '@/components/ui/ornaments';
 
+// Só aparece no menu o que já funciona. Planejar, Áreas e Revisões entram quando estiverem prontos.
 const NAV = [
   { href: '/', label: 'Hoje', icon: Icon.hoje },
-  { href: '/planejar', label: 'Planejar', icon: Icon.planejar, soon: true },
-  { href: '/areas', label: 'Áreas da vida', short: 'Áreas', icon: Icon.areas, soon: true },
   { href: '/caderno', label: 'Caderno', icon: Icon.caderno },
-  { href: '/revisoes', label: 'Revisões', icon: Icon.revisoes, soon: true },
 ];
 
 export function Shell({ children }: { children: React.ReactNode }) {
@@ -28,6 +29,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   }, [toast.key, toast.message, toast.hide]);
 
   const { session, ready, status } = useCloudSync();
+  const openAdd = useUI((s) => s.openAdd);
   const needsLogin = cloudEnabled && ready && !session;
   const SYNC_LABEL = { local: '', entrando: '', sincronizando: 'salvando…', salvo: 'salvo na nuvem', erro: 'sem conexão — salvo no aparelho' } as const;
 
@@ -39,10 +41,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <Link href="/" className="brand"><span className="mix">Diário</span> da Vida</Link>
         <nav className="nav" aria-label="Seções">
           {NAV.map((n) => (
-            <Link key={n.href} href={n.href} aria-current={isActive(n.href) ? 'page' : undefined} className={n.soon ? 'is-soon' : undefined}>
-              {n.short ?? n.label}
+            <Link key={n.href} href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>
+              {n.label}
             </Link>
           ))}
+          {!needsLogin && <button className="add-top" onClick={() => openAdd()}>+ Adicionar</button>}
         </nav>
         {session && (
           <span className="account">
@@ -54,14 +57,16 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
       <main className="main">{!ready ? null : needsLogin ? <Login /> : children}</main>
 
-      <nav className="tabbar" aria-label="Seções">
-        {NAV.map((n) => (
-          <Link key={n.href} href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>
-            {n.icon}
-            {n.short ?? n.label}
-          </Link>
-        ))}
-      </nav>
+      {!needsLogin && (
+        <nav className="tabbar" aria-label="Seções">
+          <Link href="/" aria-current={isActive('/') ? 'page' : undefined}>{Icon.hoje}Hoje</Link>
+          <button className="tab-add" onClick={() => openAdd()} aria-label="Adicionar"><span>+</span>Adicionar</button>
+          <Link href="/caderno" aria-current={isActive('/caderno') ? 'page' : undefined}>{Icon.caderno}Caderno</Link>
+        </nav>
+      )}
+
+      <AddSheet />
+      <TaskSheet />
 
       <AnimatePresence>
         {toast.message && (

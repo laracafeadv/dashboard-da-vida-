@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { useStore } from '@/lib/store';
 import type { NoteKind } from '@/lib/types';
-import { Composer } from '@/components/caderno/Composer';
+import { useUI } from '@/lib/ui';
 import { Img } from '@/components/caderno/Img';
 import { matches, noteTitle, shortDate } from '@/components/caderno/util';
 
@@ -13,6 +13,7 @@ export default function CadernoPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   const notes = useStore((s) => s.notes);
+  const openAdd = useUI((s) => s.openAdd);
   const [q, setQ] = useState('');
   const [filtro, setFiltro] = useState<Filtro>('todos');
   const [tema, setTema] = useState<string | null>(null);
@@ -37,11 +38,14 @@ export default function CadernoPage() {
         <p className="kicker">Pensamentos e referências</p>
         <h1 className="front-title"><span className="mix">Seu</span> caderno</h1>
         <p className="front-summary">
-          {notes.length === 0 ? 'Nada guardado ainda. Comece pelo campo abaixo.' : `${notes.length} ${notes.length === 1 ? 'registro' : 'registros'} guardados.`}
+          {notes.length === 0 ? 'Um lugar para ideias soltas e referências que você não quer perder.' : `${notes.length} ${notes.length === 1 ? 'registro' : 'registros'} guardados.`}
         </p>
       </header>
 
-      <Composer temasSugeridos={temas} pastas={pastas} />
+      <div className="caderno-add">
+        <button className="pill-btn big" onClick={() => openAdd('pensamento')}>Escrever um pensamento</button>
+        <button className="pill-btn big" onClick={() => openAdd('imagem')}>Guardar print ou foto</button>
+      </div>
 
       {notes.length > 0 && (
         <section className="section">
