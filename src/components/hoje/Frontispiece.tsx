@@ -33,19 +33,20 @@ export function Frontispiece({ today, selected, onSelect }: Props) {
       : <>Você está olhando para {weekday}.</>;
 
   return (
-    <header className="front">
-      <div className="hero">
-        <span className="hero-kicker">{isToday ? `${greeting()}, hoje é` : 'Dia selecionado'}</span>
-        <h1 className="hero-day">{weekday.charAt(0).toUpperCase() + weekday.slice(1)}</h1>
-        <span className="hero-date">{d.getDate()} de {MONTHS[d.getMonth()]} de {d.getFullYear()}</span>
-        <span className="hero-rule" aria-hidden="true" />
-        <span className="hero-focos">focos do mês · {focos.join(' · ')}</span>
+    <header className="front grain">
+      <div className="front-day">
+        <span className="caption">{isToday ? `${greeting()}, este é o seu dia` : 'Dia selecionado'}</span>
+        <h1 className="front-title">{weekday}</h1>
+        <span className="front-date">{d.getDate()} de {MONTHS[d.getMonth()]} de {d.getFullYear()}</span>
+        <span className="front-focos"><span className="label">Focos do mês</span>{focos.join(' · ')}</span>
       </div>
 
       <Countdown line={line} />
 
-      <div className="front-tools">
-        <Capture today={today} />
+      <Capture today={today} />
+
+      <div className="week-cell">
+        <span className="label">Esta semana</span>
         <div className="week" role="group" aria-label="Dias da semana">
           {weekOf(today).map((iso) => {
             const n = tasksFor(tasks, iso).filter((t) => !t.done).length + routineFor(routine, iso).length;

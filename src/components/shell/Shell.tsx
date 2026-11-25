@@ -42,9 +42,8 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="app">
-      <aside className="sidebar">
+      <aside className="sidebar grain">
         <Link href="/" className="brand">
-          <span className="monogram" aria-hidden="true">DV</span>
           <span className="brand-name">Diário da Vida</span>
           <span className="brand-sub">caderno pessoal</span>
         </Link>
@@ -58,11 +57,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
           ))}
         </nav>
 
-        <div className="side-frame">
-          <div className="principle">
-            <b>princípio da semana</b>
-            <p>{principle}</p>
-          </div>
+        <div className="principle">
+          <b>princípio da semana</b>
+          <p>{principle}</p>
+          <span className="hand">com carinho, você</span>
         </div>
       </aside>
 

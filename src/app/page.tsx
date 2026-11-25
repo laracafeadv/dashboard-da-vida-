@@ -51,6 +51,7 @@ export default function HojePage() {
         </div>
       )}
 
+      <div className="sheet grain">
       <div className="cols">
         <div className="col">
           <Brief tasks={dayTasks} events={dayEvents} routine={dayRoutine} isToday={isToday} />
@@ -65,6 +66,7 @@ export default function HojePage() {
       </div>
 
       {!isPast && isToday && <CloseDay date={selected} />}
+      </div>
     </>
   );
 }

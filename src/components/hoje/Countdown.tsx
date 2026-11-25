@@ -22,7 +22,7 @@ export function Countdown({ line }: { line: React.ReactNode }) {
 
   return (
     <section className="clock" aria-label="Tempo restante">
-      <p className="clock-title">O dia termina em</p>
+      <p className="caption">O dia termina em</p>
       <div className="clock-digits" role="timer" aria-live="off">
         <span><b className="tabular">{pad(h)}</b><small>horas</small></span>
         <i>:</i>
@@ -30,7 +30,7 @@ export function Countdown({ line }: { line: React.ReactNode }) {
         <i>:</i>
         <span><b className="tabular">{pad(s)}</b><small>segundos</small></span>
       </div>
-      <p className="clock-month">e {MONTHS[now.getMonth()]} termina em {monthLeft} {monthLeft === 1 ? 'dia' : 'dias'}</p>
+      <p className="clock-month label">{MONTHS[now.getMonth()]} termina em {monthLeft} {monthLeft === 1 ? 'dia' : 'dias'}</p>
       <p className="clock-line">{line}</p>
     </section>
   );

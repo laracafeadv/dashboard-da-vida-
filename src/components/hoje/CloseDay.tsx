@@ -51,6 +51,7 @@ export function CloseDay({ date }: { date: string }) {
           <>
             <p className="close-text">Decida o destino do que ficou aberto e deixe uma linha para a revisão da semana. O que você não decidir vai sozinho para amanhã.</p>
             <button className="btn" onClick={() => setOpen(true)}>Encerrar o dia</button>
+            <span className="hand close-sign">até amanhã,</span>
           </>
         )}
       </section>
