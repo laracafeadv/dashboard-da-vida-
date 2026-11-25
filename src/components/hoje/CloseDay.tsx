@@ -1,0 +1,102 @@
+'use client';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { routineFor, routineKey, tasksFor, useStore, useToast } from '@/lib/store';
+import type { CloseChoice } from '@/lib/types';
+import { Card } from './Card';
+
+const LABEL: Record<CloseChoice, string> = { amanha: 'Amanhã', semana: 'Segunda que vem', soltar: 'Soltar' };
+
+export function CloseDay({ date }: { date: string }) {
+  const [open, setOpen] = useState(false);
+  const [choices, setChoices] = useState<Record<string, CloseChoice>>({});
+  const [line, setLine] = useState('');
+  const store = useStore();
+  const toast = useToast((s) => s.show);
+  const closed = store.closes[date];
+
+  const dayTasks = tasksFor(store.tasks, date);
+  const pending = dayTasks.filter((t) => !t.done && !t.waiting);
+  const doneCount = dayTasks.filter((t) => t.done).length + routineFor(store.routine, date).filter((r) => store.routineDone[routineKey(date, r.id)]).length;
+  const prioDone = dayTasks.filter((t) => t.star && t.done).length;
+
+  useEffect(() => {
+    if (!open) return;
+    setChoices(Object.fromEntries(pending.map((t) => [t.id, 'amanha' as CloseChoice])));
+    const esc = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    window.addEventListener('keydown', esc);
+    return () => window.removeEventListener('keydown', esc);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  const confirm = () => {
+    const c = store.closeDay(date, choices, line.trim());
+    setOpen(false);
+    setLine('');
+    toast(`Dia fechado. ${c.moved} ${c.moved === 1 ? 'tarefa seguiu' : 'tarefas seguiram'} para amanhã.`);
+  };
+
+  return (
+    <>
+      <section className="card closing">
+        {closed ? (
+          <div>
+            <h3>Dia fechado</h3>
+            <p>{closed.completed} itens concluídos · {closed.moved} seguiram para o dia seguinte.</p>
+            {closed.line && <blockquote>“{closed.line}”</blockquote>}
+          </div>
+        ) : (
+          <div>
+            <h3>Fechar o dia</h3>
+            <p>Um minuto à noite: decidir o destino do que ficou aberto e deixar uma linha para a revisão da semana. O que você não decidir vai sozinho para amanhã.</p>
+          </div>
+        )}
+        {closed ? (
+          <button className="btn-ghost" onClick={() => store.reopenDay(date)}>Reabrir o dia</button>
+        ) : (
+          <button className="btn" onClick={() => setOpen(true)}>Fechar o dia</button>
+        )}
+      </section>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div className="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={(e) => e.target === e.currentTarget && setOpen(false)}>
+            <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} role="dialog" aria-modal="true" aria-label="Fechar o dia" className="dialog">
+              <Card title="Fechar o dia" meta="1 minuto">
+                <div className="tally">
+                  <div><b className="tabular">{doneCount}</b><span>concluídos</span></div>
+                  <div><b className="tabular">{prioDone}/3</b><span>prioridades</span></div>
+                  <div><b className="tabular">{pending.length}</b><span>em aberto</span></div>
+                </div>
+                {pending.length > 0 ? (
+                  <ul className="list">
+                    {pending.map((t) => (
+                      <li key={t.id} className="row">
+                        <div>
+                          <div className="row-title">{t.title}</div>
+                          <div className="seg" role="group" aria-label={`Destino de ${t.title}`}>
+                            {(Object.keys(LABEL) as CloseChoice[]).map((c) => (
+                              <button key={c} type="button" aria-pressed={choices[t.id] === c} onClick={() => setChoices({ ...choices, [t.id]: c })}>{LABEL[c]}</button>
+                            ))}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="empty">Nada ficou pendente. Bom dia de trabalho.</p>
+                )}
+                <label htmlFor="linha">Uma linha sobre hoje (vai para a revisão semanal)</label>
+                <textarea id="linha" value={line} onChange={(e) => setLine(e.target.value)} placeholder="A audiência rendeu; senti falta de uma pausa à tarde." />
+                <div className="acts">
+                  <button className="btn-ghost" onClick={() => setOpen(false)}>Voltar</button>
+                  <button className="btn" onClick={confirm}>Fechar e preparar amanhã</button>
+                </div>
+              </Card>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
