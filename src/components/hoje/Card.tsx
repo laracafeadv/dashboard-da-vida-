@@ -1,5 +1,3 @@
-import { Sprig } from '@/components/ui/vintage';
-
 type Variant = 'paper' | 'stamp' | 'note';
 
 interface Props {
@@ -11,25 +9,18 @@ interface Props {
   children: React.ReactNode;
 }
 
-/** Cartão do caderno. `paper` para o dia a dia, `stamp` e `note` para momentos especiais. */
+/** Cartão do caderno. `paper` para o dia a dia, `stamp` e `note` (moldura dourada) para os destaques. */
 export function Card({ title, meta, variant = 'paper', flourish, className, children }: Props) {
   const head = (
     <div className="card-head">
-      {flourish && <Sprig />}
+      {flourish && <span className="rule" aria-hidden="true" />}
       <h2 className="card-title">{title}</h2>
       {meta && <span className="card-meta">{meta}</span>}
     </div>
   );
 
-  if (variant === 'stamp')
-    return (
-      <section className={`stamp ${className ?? ''}`}>
-        <div className="stamp-in">{head}{children}</div>
-      </section>
-    );
-
   return (
-    <section className={`${variant} ${className ?? ''}`}>
+    <section className={`${variant === 'paper' ? 'paper' : 'feature'} ${className ?? ''}`}>
       {head}
       {children}
     </section>

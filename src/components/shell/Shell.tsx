@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/lib/store';
 import { Icon } from '@/components/ui/ornaments';
-import { GildedFrame, IvorySeal } from '@/components/ui/vintage';
 
 const NAV = [
   { href: '/', label: 'Hoje', icon: Icon.hoje },
@@ -45,7 +44,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
     <div className="app">
       <aside className="sidebar">
         <Link href="/" className="brand">
-          <IvorySeal id="brand-seal" />
+          <span className="monogram" aria-hidden="true">DV</span>
           <span className="brand-name">Diário da Vida</span>
           <span className="brand-sub">caderno pessoal</span>
         </Link>
@@ -60,10 +59,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="side-frame">
-          <GildedFrame id="principle-frame">
+          <div className="principle">
             <b>princípio da semana</b>
             <p>{principle}</p>
-          </GildedFrame>
+          </div>
         </div>
       </aside>
 

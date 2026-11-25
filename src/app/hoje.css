@@ -1,12 +1,17 @@
 /* ===================== HOJE ===================== */
 
-/* ---------- abertura: seda pintada + convite oval ---------- */
-.hero { position: relative; overflow: hidden; min-height: 400px; display: grid; place-items: center; padding: 48px 24px; background: #cbb89c; box-shadow: var(--shadow); }
-.hero-oval { width: min(520px, 100%); position: relative; }
-.oval-kicker { font-family: var(--f-caps); font-size: 1rem; letter-spacing: 0.08em; color: var(--muted); }
-.oval-day { font-family: var(--f-script); font-size: clamp(2.8rem, 5.4vw, 4.2rem); line-height: 1.15; color: var(--ink); margin: 2px 0 4px; }
-.oval-date { font-family: var(--f-caps); font-size: 1.12rem; letter-spacing: 0.06em; color: var(--ink); }
-.oval-focos { font-family: var(--f-caps); font-size: 0.9rem; letter-spacing: 0.06em; color: var(--muted); margin-top: 6px; }
+/* ---------- abertura: só tipografia ---------- */
+.hero {
+  position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding: 56px 24px 48px; background: var(--ivory); box-shadow: var(--shadow);
+}
+.hero::before { content: ''; position: absolute; inset: 12px; border: 1px solid var(--gold); pointer-events: none; }
+.hero::after { content: ''; position: absolute; inset: 17px; border: 1px solid rgba(184, 149, 90, 0.45); pointer-events: none; }
+.hero-kicker { font-family: var(--f-caps); font-size: 1.1rem; letter-spacing: 0.1em; color: var(--muted); }
+.hero-day { font-family: var(--f-script); font-weight: 400; font-size: clamp(3.4rem, 7vw, 5.6rem); line-height: 1.15; color: var(--ink); margin: 6px 0 2px; }
+.hero-date { font-family: var(--f-caps); font-size: 1.3rem; letter-spacing: 0.08em; color: var(--ink); }
+.hero-rule { width: 64px; height: 7px; margin: 16px 0 12px; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); }
+.hero-focos { font-family: var(--f-caps); font-size: 1rem; letter-spacing: 0.08em; color: var(--muted); }
 
 /* ---------- relógio ---------- */
 .clock { text-align: center; color: var(--cream); padding: 44px 16px 34px; }
@@ -124,11 +129,8 @@
 .goal.bump { animation: bump 1.2s ease; }
 @keyframes bump { 0% { background: rgba(217, 191, 134, 0.35); } 100% { background: transparent; } }
 
-/* ---------- fechar o dia: envelope ---------- */
-.close-note { margin: 64px auto 0; max-width: 620px; text-align: center; }
-.close-seal { position: absolute !important; top: 88px; left: 50%; width: 80px; height: 80px; transform: translateX(-50%) rotate(-4deg); z-index: 2 !important; }
-.close-seal.is-sealed { transform: translateX(-50%) rotate(6deg) scale(1.05); }
-.close-note .card-head { margin-top: 18px; }
+/* ---------- fechar o dia ---------- */
+.close-note { margin: 56px auto 0; max-width: 620px; text-align: center; }
 .close-text { color: var(--muted); font-style: italic; max-width: 50ch; margin: 0 auto 20px; }
 .close-line { font-size: 1.9rem; line-height: 1.4; margin-bottom: 20px; }
 
@@ -165,11 +167,10 @@
   .front-tools { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 900px) {
-  .hero { min-height: 300px; padding: 30px 6px; margin-inline: calc(-1 * max(14px, env(safe-area-inset-left, 0px))); box-shadow: none; }
-  .hero-oval { width: 100%; max-width: 380px; }
-  .oval-kicker { font-size: 0.8rem; }
-  .oval-date { font-size: 0.9rem; }
-  .oval-focos { font-size: 0.74rem; }
+  .hero { margin-top: 16px; padding: 40px 18px 34px; }
+  .hero-kicker { font-size: 0.95rem; }
+  .hero-date { font-size: 1.1rem; }
+  .hero-focos { font-size: 0.88rem; }
   .clock { padding: 30px 0 24px; }
   .clock-digits { gap: 4px; }
   .clock-digits span { min-width: 54px; }

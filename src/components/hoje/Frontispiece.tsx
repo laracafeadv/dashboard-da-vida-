@@ -1,7 +1,6 @@
 'use client';
 import { fromISO, MONTHS, WEEKDAYS, WEEKDAYS_SHORT, weekOf } from '@/lib/dates';
 import { routineFor, tasksFor, useStore } from '@/lib/store';
-import { EmbossedOval, SilkBackdrop } from '@/components/ui/vintage';
 import { Icon } from '@/components/ui/ornaments';
 import { Capture } from './Capture';
 import { Countdown } from './Countdown';
@@ -36,13 +35,11 @@ export function Frontispiece({ today, selected, onSelect }: Props) {
   return (
     <header className="front">
       <div className="hero">
-        <SilkBackdrop id="hero-silk" />
-        <EmbossedOval id="date-oval" className="hero-oval">
-          <span className="oval-kicker">{isToday ? `${greeting()}, hoje é` : 'Dia selecionado'}</span>
-          <span className="oval-day">{weekday.charAt(0).toUpperCase() + weekday.slice(1)}</span>
-          <span className="oval-date">{d.getDate()} de {MONTHS[d.getMonth()]} de {d.getFullYear()}</span>
-          <span className="oval-focos">focos do mês · {focos.join(' · ')}</span>
-        </EmbossedOval>
+        <span className="hero-kicker">{isToday ? `${greeting()}, hoje é` : 'Dia selecionado'}</span>
+        <h1 className="hero-day">{weekday.charAt(0).toUpperCase() + weekday.slice(1)}</h1>
+        <span className="hero-date">{d.getDate()} de {MONTHS[d.getMonth()]} de {d.getFullYear()}</span>
+        <span className="hero-rule" aria-hidden="true" />
+        <span className="hero-focos">focos do mês · {focos.join(' · ')}</span>
       </div>
 
       <Countdown line={line} />

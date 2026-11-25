@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { routineFor, routineKey, tasksFor, useStore, useToast } from '@/lib/store';
 import type { CloseChoice } from '@/lib/types';
-import { IvorySeal } from '@/components/ui/vintage';
 
 const LABEL: Record<CloseChoice, string> = { amanha: 'Amanhã', semana: 'Segunda que vem', soltar: 'Soltar' };
 
@@ -33,15 +32,14 @@ export function CloseDay({ date }: { date: string }) {
     const c = store.closeDay(date, choices, line.trim());
     setOpen(false);
     setLine('');
-    toast(`Dia lacrado. ${c.moved} ${c.moved === 1 ? 'tarefa seguiu' : 'tarefas seguiram'} para amanhã.`);
+    toast(`Dia encerrado. ${c.moved} ${c.moved === 1 ? 'tarefa seguiu' : 'tarefas seguiram'} para amanhã.`);
   };
 
   return (
     <>
-      <section className="note close-note">
-        <IvorySeal id="close-seal" className={`close-seal${closed ? ' is-sealed' : ''}`} />
+      <section className="feature close-note">
         <div className="card-head">
-          <h2 className="card-title">{closed ? 'Dia lacrado' : 'Fechar o dia'}</h2>
+          <h2 className="card-title">{closed ? 'Dia encerrado' : 'Fechar o dia'}</h2>
           <span className="card-meta">{closed ? `${closed.completed} concluídos · ${closed.moved} para amanhã` : 'um minuto, à noite'}</span>
         </div>
         {closed ? (
@@ -52,7 +50,7 @@ export function CloseDay({ date }: { date: string }) {
         ) : (
           <>
             <p className="close-text">Decida o destino do que ficou aberto e deixe uma linha para a revisão da semana. O que você não decidir vai sozinho para amanhã.</p>
-            <button className="btn" onClick={() => setOpen(true)}>Fechar e lacrar</button>
+            <button className="btn" onClick={() => setOpen(true)}>Encerrar o dia</button>
           </>
         )}
       </section>
@@ -60,8 +58,7 @@ export function CloseDay({ date }: { date: string }) {
       <AnimatePresence>
         {open && (
           <motion.div className="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={(e) => e.target === e.currentTarget && setOpen(false)}>
-            <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} role="dialog" aria-modal="true" aria-label="Fechar o dia" className="note dialog">
-              <IvorySeal id="dialog-seal" className="close-seal" />
+            <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} role="dialog" aria-modal="true" aria-label="Fechar o dia" className="feature dialog">
               <div className="card-head">
                 <h2 className="card-title">Fechar o dia</h2>
                 <span className="card-meta">um minuto</span>
@@ -91,7 +88,7 @@ export function CloseDay({ date }: { date: string }) {
               <textarea id="linha" value={line} onChange={(e) => setLine(e.target.value)} placeholder="A audiência rendeu; amanhã, uma pausa de verdade." />
               <div className="acts">
                 <button className="btn-ghost" onClick={() => setOpen(false)}>Voltar</button>
-                <button className="btn" onClick={confirm}>Lacrar o dia</button>
+                <button className="btn" onClick={confirm}>Encerrar e preparar amanhã</button>
               </div>
             </motion.div>
           </motion.div>
