@@ -4,6 +4,9 @@ import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { useToast } from '@/lib/store';
+import { useCloudSync } from '@/lib/sync';
+import { supabase, cloudEnabled } from '@/lib/supabase';
+import { Login } from './Login';
 import { Icon } from '@/components/ui/ornaments';
 
 const NAV = [
@@ -24,6 +27,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(t);
   }, [toast.key, toast.message, toast.hide]);
 
+  const { session, ready, status } = useCloudSync();
+  const needsLogin = cloudEnabled && ready && !session;
+  const SYNC_LABEL = { local: '', entrando: '', sincronizando: 'salvando…', salvo: 'salvo na nuvem', erro: 'sem conexão — salvo no aparelho' } as const;
+
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
   return (
@@ -37,9 +44,15 @@ export function Shell({ children }: { children: React.ReactNode }) {
             </Link>
           ))}
         </nav>
+        {session && (
+          <span className="account">
+            <span className={`sync ${status}`}>{SYNC_LABEL[status]}</span>{' '}
+            <button className="link" onClick={() => supabase?.auth.signOut()}>sair</button>
+          </span>
+        )}
       </header>
 
-      <main className="main">{children}</main>
+      <main className="main">{!ready ? null : needsLogin ? <Login /> : children}</main>
 
       <nav className="tabbar" aria-label="Seções">
         {NAV.map((n) => (

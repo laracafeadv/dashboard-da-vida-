@@ -108,3 +108,15 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* ---------- entrada ---------- */
+.login { max-width: 420px; margin: 0 auto; padding: 120px 0 60px; text-align: center; }
+.login .kicker { margin-top: 14px; }
+.login-form { display: flex; flex-direction: column; gap: 14px; margin: 40px 0 18px; }
+.login-form input { border: 0; border-bottom: 1px solid var(--line); background: transparent; padding: 10px 0; text-align: center; font-style: italic; font-size: 1.1rem; }
+.login-form input:focus { outline: none; border-bottom-color: var(--ink); }
+.login-form .btn { margin-top: 12px; }
+.login-msg { font-style: italic; color: var(--accent); margin-bottom: 14px; }
+.sync { font-style: italic; font-size: 0.82rem; color: var(--faint); }
+.sync.erro { color: var(--accent); }
+.topbar .link { font-size: 0.82rem; color: var(--muted); }
