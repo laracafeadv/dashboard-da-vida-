@@ -59,3 +59,34 @@ export interface DayClose {
 
 export type CloseChoice = 'amanha' | 'semana' | 'soltar';
 export type TriageAction = 'hoje' | 'segunda' | 'delegar' | 'soltar';
+
+/* ---------- Caderno ---------- */
+export type NoteKind = 'pensamento' | 'referencia';
+
+export interface NoteImage {
+  id: string;
+  /** Imagem comprimida em data URL (modo só no aparelho) ou caminho no armazenamento da nuvem. */
+  src: string;
+  cloud?: boolean;
+  w: number;
+  h: number;
+}
+
+export interface NoteVersion {
+  at: string;
+  body: string;
+}
+
+export interface Note {
+  id: string;
+  kind: NoteKind;
+  title: string;
+  body: string;
+  images: NoteImage[];
+  temas: string[];
+  pasta?: string;
+  createdAt: string;
+  updatedAt: string;
+  /** Textos anteriores, do mais recente ao mais antigo. */
+  versions: NoteVersion[];
+}

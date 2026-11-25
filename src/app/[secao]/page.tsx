@@ -16,11 +16,6 @@ const SECOES: Record<string, { titulo: string; fase: string; itens: string[] }> 
     fase: 'Fase 4',
     itens: ['Raio-X mensal: importância × atenção real.', 'Páginas de Saúde e sono, Estudos, Finanças, Carreira e Relações.'],
   },
-  caderno: {
-    titulo: 'Caderno',
-    fase: 'Fase 2',
-    itens: ['Brain Dump com instrução para o Claude e histórico de versões.', 'Biblioteca de prints, referências e aprendizados, com análise por IA.'],
-  },
   revisoes: {
     titulo: 'Revisões',
     fase: 'Fase 3',

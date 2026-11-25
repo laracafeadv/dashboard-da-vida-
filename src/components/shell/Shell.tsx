@@ -13,7 +13,7 @@ const NAV = [
   { href: '/', label: 'Hoje', icon: Icon.hoje },
   { href: '/planejar', label: 'Planejar', icon: Icon.planejar, soon: true },
   { href: '/areas', label: 'Áreas da vida', short: 'Áreas', icon: Icon.areas, soon: true },
-  { href: '/caderno', label: 'Caderno', icon: Icon.caderno, soon: true },
+  { href: '/caderno', label: 'Caderno', icon: Icon.caderno },
   { href: '/revisoes', label: 'Revisões', icon: Icon.revisoes, soon: true },
 ];
 

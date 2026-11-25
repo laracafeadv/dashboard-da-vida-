@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 import { addDays, diffDays, fromISO, nextMonday, todayISO } from './dates';
 import type { ParsedCapture } from './parse';
 import { sampleData } from './sample';
-import type { CalendarEvent, CloseChoice, DayClose, Goal, RoutineItem, Task, TriageAction } from './types';
+import type { CalendarEvent, CloseChoice, DayClose, Goal, Note, RoutineItem, Task, TriageAction } from './types';
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 export const MAX_PRIORITIES = 3;
@@ -18,6 +18,7 @@ interface State {
   closes: Record<string, DayClose>;
   focos: string[];
   lastSeen: string;
+  notes: Note[];
 
   /** Leva para hoje o que ficou aberto em dias anteriores. Retorna quantas tarefas migraram. */
   rollover: (today: string) => number;
@@ -29,6 +30,10 @@ interface State {
   closeDay: (date: string, choices: Record<string, CloseChoice>, line: string) => DayClose;
   reopenDay: (date: string) => void;
   resetSample: () => void;
+  addNote: (n: Omit<Note, 'id' | 'createdAt' | 'updatedAt' | 'versions'>) => string;
+  /** Atualiza a nota; se o texto mudou, o texto anterior vira uma versão. */
+  updateNote: (id: string, patch: Partial<Omit<Note, 'id' | 'createdAt' | 'versions'>>) => void;
+  deleteNote: (id: string) => void;
 }
 
 export const routineKey = (date: string, id: string) => `${date}:${id}`;
@@ -47,6 +52,7 @@ export const useStore = create<State>()(
       routineDone: {},
       closes: {},
       lastSeen: todayISO(),
+      notes: [],
 
       rollover: (today) => {
         let moved = 0;
@@ -140,6 +146,29 @@ export const useStore = create<State>()(
         delete closes[date];
         set({ closes });
       },
+
+      addNote: (n) => {
+        const now = new Date().toISOString();
+        const note: Note = { ...n, id: uid(), createdAt: now, updatedAt: now, versions: [] };
+        set({ notes: [note, ...get().notes] });
+        return note.id;
+      },
+
+      updateNote: (id, patch) =>
+        set({
+          notes: get().notes.map((n) => {
+            if (n.id !== id) return n;
+            const changedBody = patch.body !== undefined && patch.body !== n.body;
+            return {
+              ...n,
+              ...patch,
+              updatedAt: new Date().toISOString(),
+              versions: changedBody ? [{ at: n.updatedAt, body: n.body }, ...n.versions].slice(0, 30) : n.versions,
+            };
+          }),
+        }),
+
+      deleteNote: (id) => set({ notes: get().notes.filter((n) => n.id !== id) }),
 
       resetSample: () => {
         const today = todayISO();
