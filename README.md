@@ -34,6 +34,6 @@ docs/
 
 ## Estado atual
 
-- Identidade "Editorial": só fontes e cores das referências (chocolate, papel creme, vinho; Libre Caslon Display, EB Garamond e assinatura Ms Madi), em grade dividida por fios finos. Aplicada à estrutura e à tela **Hoje**, responsiva. Versões anteriores estão no histórico do git.
+- Identidade "Editorial": só fontes e cores das referências (chocolate, papel creme, vinho; Cormorant Garamond em versais + Instrument Serif itálico nos títulos, Cormorant no texto e assinatura Ms Madi), em grade dividida por fios finos. Aplicada à estrutura e à tela **Hoje**, responsiva. Versões anteriores estão no histórico do git.
 - Motivos visuais em `src/components/ui/vintage.tsx`; cores e fontes em `src/app/globals.css` (`:root`).
 - Os dados ficam no navegador (localStorage). Próximo passo de infraestrutura: Supabase para sincronizar celular e computador.

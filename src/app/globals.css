@@ -21,8 +21,9 @@
   --on-dark-2: #b3a293;     /* secundário sobre o chocolate */
   --line-dark: rgba(196, 170, 148, 0.38); /* fios sobre o chocolate */
 
-  --f-display: var(--font-display), 'Libre Caslon Display', Georgia, serif;
-  --f-serif: var(--font-serif), 'EB Garamond', Georgia, serif;
+  --f-display: var(--font-serif), 'Cormorant Garamond', Georgia, serif;   /* versais finas */
+  --f-serif: var(--font-serif), 'Cormorant Garamond', Georgia, serif;     /* texto */
+  --f-accent: var(--font-accent), 'Instrument Serif', Georgia, serif;    /* itálico condensado */
   --f-hand: var(--font-hand), 'Ms Madi', cursive;
 
   color-scheme: light;
@@ -32,7 +33,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 [hidden] { display: none !important; }
 html { background: var(--choco); -webkit-text-size-adjust: 100%; }
-body { min-height: 100dvh; background: var(--choco); color: var(--ink); font-family: var(--f-serif); font-size: 16.5px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+body { min-height: 100dvh; background: var(--choco); color: var(--ink); font-family: var(--f-serif); font-weight: 500; font-size: 18px; line-height: 1.5; font-variant-numeric: lining-nums; -webkit-font-smoothing: antialiased; }
 button, input, textarea, select { font: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: 0; }
 button:disabled { cursor: default; opacity: 0.55; }
@@ -50,6 +51,7 @@ a { color: inherit; text-decoration: none; }
 .label { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; }
 .caption { font-style: italic; font-size: 0.95rem; }
 .hand { font-family: var(--f-hand); font-weight: 400; }
+.nowrap { white-space: nowrap; }
 
 /* ---------- estrutura ---------- */
 .app { display: grid; grid-template-columns: 240px minmax(0, 1fr); min-height: 100dvh; }
@@ -63,7 +65,7 @@ a { color: inherit; text-decoration: none; }
   border-right: 1px solid var(--line-dark);
 }
 .brand { display: block; padding: 34px 26px 28px; border-bottom: 1px solid var(--line-dark); }
-.brand-name { display: block; font-family: var(--f-display); font-size: 1.45rem; line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase; color: var(--on-dark); }
+.brand-name { display: block; font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase; color: var(--on-dark); }
 .brand-sub { display: block; margin-top: 6px; font-style: italic; font-size: 0.95rem; color: var(--on-dark-2); }
 
 .nav { display: flex; flex-direction: column; padding: 14px 0; }
@@ -88,7 +90,9 @@ a { color: inherit; text-decoration: none; }
 .paper, .feature { position: relative; min-width: 0; padding: 34px 36px 32px; }
 .card-head { margin-bottom: 18px; }
 .card-head .rule { display: none; }
-.card-title { font-family: var(--f-display); font-weight: 400; font-size: 1.55rem; line-height: 1.15; letter-spacing: 0.02em; text-transform: uppercase; color: var(--wine); text-wrap: balance; }
+.card-title { font-family: var(--f-display); font-weight: 400; font-size: 1.75rem; line-height: 1.1; letter-spacing: 0.01em; text-transform: uppercase; color: var(--wine); text-wrap: balance; }
+/* palavra em itálico condensado dentro de um título em versais */
+.mix { font-family: var(--f-accent); font-style: italic; font-weight: 400; text-transform: none; letter-spacing: -0.01em; font-size: 1.12em; }
 .card-meta { display: block; margin-top: 4px; font-style: italic; font-size: 0.95rem; color: var(--muted); }
 
 .btn {

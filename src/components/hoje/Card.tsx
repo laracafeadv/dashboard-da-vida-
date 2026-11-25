@@ -1,3 +1,4 @@
+import { MixTitle } from './Title';
 type Variant = 'paper' | 'stamp' | 'note';
 
 interface Props {
@@ -14,7 +15,7 @@ export function Card({ title, meta, variant = 'paper', flourish, className, chil
   const head = (
     <div className="card-head">
       {flourish && <span className="rule" aria-hidden="true" />}
-      <h2 className="card-title">{title}</h2>
+      <h2 className="card-title"><MixTitle text={title} /></h2>
       {meta && <span className="card-meta">{meta}</span>}
     </div>
   );

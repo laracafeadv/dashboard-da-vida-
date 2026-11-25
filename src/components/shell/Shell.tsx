@@ -44,7 +44,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
     <div className="app">
       <aside className="sidebar grain">
         <Link href="/" className="brand">
-          <span className="brand-name">Diário da Vida</span>
+          <span className="brand-name"><span className="mix">Diário</span> da Vida</span>
           <span className="brand-sub">caderno pessoal</span>
         </Link>
 

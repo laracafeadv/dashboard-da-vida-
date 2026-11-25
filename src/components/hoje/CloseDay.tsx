@@ -1,4 +1,5 @@
 'use client';
+import { MixTitle } from './Title';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { routineFor, routineKey, tasksFor, useStore, useToast } from '@/lib/store';
@@ -39,7 +40,7 @@ export function CloseDay({ date }: { date: string }) {
     <>
       <section className="feature close-note">
         <div className="card-head">
-          <h2 className="card-title">{closed ? 'Dia encerrado' : 'Fechar o dia'}</h2>
+          <h2 className="card-title"><MixTitle text={closed ? 'Dia encerrado' : 'Encerrar o dia'} /></h2>
           <span className="card-meta">{closed ? `${closed.completed} concluídos · ${closed.moved} para amanhã` : 'um minuto, à noite'}</span>
         </div>
         {closed ? (
@@ -61,7 +62,7 @@ export function CloseDay({ date }: { date: string }) {
           <motion.div className="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={(e) => e.target === e.currentTarget && setOpen(false)}>
             <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} role="dialog" aria-modal="true" aria-label="Fechar o dia" className="feature dialog">
               <div className="card-head">
-                <h2 className="card-title">Fechar o dia</h2>
+                <h2 className="card-title"><MixTitle text="Encerrar o dia" /></h2>
                 <span className="card-meta">um minuto</span>
               </div>
               <div className="tally">

@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { EB_Garamond, Libre_Caslon_Display, Ms_Madi } from 'next/font/google';
+import { Cormorant_Garamond, Instrument_Serif, Ms_Madi } from 'next/font/google';
 import { Shell } from '@/components/shell/Shell';
 import './globals.css';
 import './hoje.css';
 
-const display = Libre_Caslon_Display({ subsets: ['latin'], weight: '400', variable: '--font-display' });
-const serif = EB_Garamond({ subsets: ['latin'], weight: ['400', '500'], style: ['normal', 'italic'], variable: '--font-serif' });
+// Fontes da referência: versais finas (Cormorant Garamond) + itálico condensado (Instrument Serif).
+const serif = Cormorant_Garamond({ subsets: ['latin'], weight: ['400', '500', '600'], style: ['normal', 'italic'], variable: '--font-serif' });
+const accent = Instrument_Serif({ subsets: ['latin'], weight: '400', style: ['normal', 'italic'], variable: '--font-accent' });
 const hand = Ms_Madi({ subsets: ['latin'], weight: '400', variable: '--font-hand' });
 
 export const metadata: Metadata = {
@@ -17,7 +18,7 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1, view
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${display.variable} ${serif.variable} ${hand.variable}`}>
+    <html lang="pt-BR" className={`${serif.variable} ${accent.variable} ${hand.variable}`}>
       <body>
         <Shell>{children}</Shell>
       </body>

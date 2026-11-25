@@ -35,8 +35,8 @@ export function Frontispiece({ today, selected, onSelect }: Props) {
   return (
     <header className="front grain">
       <div className="front-day">
-        <span className="caption">{isToday ? `${greeting()}, este é o seu dia` : 'Dia selecionado'}</span>
-        <h1 className="front-title">{weekday}</h1>
+        <span className="caption">{isToday ? `${greeting()}.` : 'Planejamento'}</span>
+        <h1 className="front-title"><span className="mix">{isToday ? 'Hoje é' : 'Dia de'}</span> <span className="nowrap">{weekday}</span></h1>
         <span className="front-date">{d.getDate()} de {MONTHS[d.getMonth()]} de {d.getFullYear()}</span>
         <span className="front-focos"><span className="label">Focos do mês</span>{focos.join(' · ')}</span>
       </div>
