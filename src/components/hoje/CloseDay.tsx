@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { routineFor, routineKey, tasksFor, useStore, useToast } from '@/lib/store';
 import type { CloseChoice } from '@/lib/types';
-import { WaxSeal } from '@/components/ui/vintage';
+import { IvorySeal } from '@/components/ui/vintage';
 
 const LABEL: Record<CloseChoice, string> = { amanha: 'Amanhã', semana: 'Segunda que vem', soltar: 'Soltar' };
 
@@ -39,7 +39,7 @@ export function CloseDay({ date }: { date: string }) {
   return (
     <>
       <section className="note close-note">
-        <WaxSeal id="close-seal" className={`close-seal${closed ? ' is-sealed' : ''}`} />
+        <IvorySeal id="close-seal" className={`close-seal${closed ? ' is-sealed' : ''}`} />
         <div className="card-head">
           <h2 className="card-title">{closed ? 'Dia lacrado' : 'Fechar o dia'}</h2>
           <span className="card-meta">{closed ? `${closed.completed} concluídos · ${closed.moved} para amanhã` : 'um minuto, à noite'}</span>
@@ -61,7 +61,7 @@ export function CloseDay({ date }: { date: string }) {
         {open && (
           <motion.div className="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={(e) => e.target === e.currentTarget && setOpen(false)}>
             <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} role="dialog" aria-modal="true" aria-label="Fechar o dia" className="note dialog">
-              <WaxSeal id="dialog-seal" className="close-seal" />
+              <IvorySeal id="dialog-seal" className="close-seal" />
               <div className="card-head">
                 <h2 className="card-title">Fechar o dia</h2>
                 <span className="card-meta">um minuto</span>

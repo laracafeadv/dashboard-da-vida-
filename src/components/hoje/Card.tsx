@@ -1,4 +1,4 @@
-import { Flourish } from '@/components/ui/vintage';
+import { Sprig } from '@/components/ui/vintage';
 
 type Variant = 'paper' | 'stamp' | 'note';
 
@@ -15,7 +15,7 @@ interface Props {
 export function Card({ title, meta, variant = 'paper', flourish, className, children }: Props) {
   const head = (
     <div className="card-head">
-      {flourish && <Flourish className="flourish" />}
+      {flourish && <Sprig />}
       <h2 className="card-title">{title}</h2>
       {meta && <span className="card-meta">{meta}</span>}
     </div>

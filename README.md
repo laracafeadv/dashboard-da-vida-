@@ -34,6 +34,6 @@ docs/
 
 ## Estado atual
 
-- Etapa 2: identidade "Carta" (xadrez bordô, papel creme, selo postal, lacre, renda) aplicada à estrutura e à tela **Hoje**, responsiva.
+- Identidade "Convite": chocolate profundo, papel marfim em relevo com ilhoses, caligrafia, versaletes, relógio datilografado, envelope com lacre marfim e moldura dourada. Aplicada à estrutura e à tela **Hoje**, responsiva. (A versão anterior, "Carta", está no histórico do git.)
 - Motivos visuais em `src/components/ui/vintage.tsx`; cores e fontes em `src/app/globals.css` (`:root`).
 - Os dados ficam no navegador (localStorage). Próximo passo de infraestrutura: Supabase para sincronizar celular e computador.
