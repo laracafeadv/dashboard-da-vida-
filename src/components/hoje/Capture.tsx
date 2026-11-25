@@ -22,27 +22,13 @@ export function Capture({ today }: { today: string }) {
 
   return (
     <form className="capture" onSubmit={submit} autoComplete="off">
-      <div className="capture-row">
-        <label htmlFor="capture">Anotar</label>
-        <input id="capture" value={value} onChange={(e) => setValue(e.target.value)} placeholder="pagar IPVA sexta 15h #finanças !" />
-        <button className="btn" type="submit">Guardar</button>
-      </div>
-      <div className="parse" aria-live="polite">
-        {parsed ? (
-          <>
-            <span className="pchip">“{parsed.title || '…'}”</span>
-            <span className="pchip">{relativeLabel(parsed.date, today)}{parsed.time ? ` · ${parsed.time}` : ''}</span>
-            {parsed.area && <span className="pchip">{parsed.area}</span>}
-            {parsed.star && <span className="pchip">prioridade</span>}
-            {parsed.waiting && <span className="pchip">aguardando alguém</span>}
-          </>
-        ) : (
-          <span>
-            Escreva como falaria. Entende <code>amanhã</code> <code>sexta</code> <code>dia 10</code> <code>15h</code> <code>#área</code>,{' '}
-            <code>!</code> para prioridade e <code>@espera</code> quando depende de alguém.
-          </span>
-        )}
-      </div>
+      <label htmlFor="capture" className="sr-only">Anotar</label>
+      <input id="capture" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Anotar algo… ex.: pagar IPVA sexta 15h" />
+      <p className="parse" aria-live="polite">
+        {parsed
+          ? <>{parsed.title || '…'} · {relativeLabel(parsed.date, today)}{parsed.time ? ` às ${parsed.time}` : ''}{parsed.area ? ` · ${parsed.area}` : ''}{parsed.star ? ' · prioridade' : ''}{parsed.waiting ? ' · aguardando alguém' : ''} — <em>enter para guardar</em></>
+          : <>&nbsp;</>}
+      </p>
     </form>
   );
 }

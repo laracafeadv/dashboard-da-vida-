@@ -1,12 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { longDate, todayISO, weekdayName } from '@/lib/dates';
+import { todayISO } from '@/lib/dates';
+import { buildBriefing } from '@/lib/briefing';
 import { routineFor, tasksFor, useStore, useToast } from '@/lib/store';
+import type { Goal } from '@/lib/types';
 import { Frontispiece } from '@/components/hoje/Frontispiece';
-import { Brief } from '@/components/hoje/Brief';
-import { Priorities, TaskList } from '@/components/hoje/Tasks';
-import { Agenda, Goals, Routine } from '@/components/hoje/Context';
+import { Agenda, DayList, GoalsLine, Priorities } from '@/components/hoje/Day';
 import { CloseDay } from '@/components/hoje/CloseDay';
+
+const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
 export default function HojePage() {
   const [mounted, setMounted] = useState(false);
@@ -19,7 +21,7 @@ export default function HojePage() {
   const routine = useStore((s) => s.routine);
   const toast = useToast((s) => s.show);
 
-  // Ao abrir: leva para hoje o que ficou aberto em dias anteriores.
+  // Ao abrir: o que ficou aberto em dias anteriores vem para hoje.
   useEffect(() => {
     const t = todayISO();
     setToday(t);
@@ -33,40 +35,29 @@ export default function HojePage() {
   if (!mounted) return <div style={{ minHeight: '100dvh' }} aria-busy="true" />;
 
   const isToday = selected === today;
-  const isPast = selected < today;
   const dayTasks = tasksFor(tasks, selected);
   const dayEvents = events.filter((e) => e.date === selected);
   const dayRoutine = routineFor(routine, selected);
+  const brief = buildBriefing(dayTasks, dayEvents, dayRoutine, isToday);
 
-  const bump = (id: string) => { setBumped(id); setTimeout(() => setBumped(null), 1300); };
+  // Resumo em uma frase.
+  const open = dayTasks.filter((t) => !t.done).length + dayRoutine.length;
+  const commitments = dayEvents.filter((e) => !e.free).length;
+  const stuck = dayTasks.find((t) => !t.done && t.rolled >= 3);
+  const summary =
+    `${plural(commitments, 'compromisso', 'compromissos')} e ${plural(open, 'coisa para fazer', 'coisas para fazer')}.` +
+    (stuck && isToday ? ` “${stuck.title}” pede uma decisão.` : '');
+
+  const bump = (g: Goal) => { setBumped(g.id); setTimeout(() => setBumped(null), 1300); };
 
   return (
-    <>
-      <Frontispiece today={today} selected={selected} onSelect={setSelected} />
-
-      {!isToday && (
-        <div className="viewing">
-          <span>Você está vendo <b>{weekdayName(selected)}, {longDate(selected)}</b>{isPast ? ' (dia passado)' : ' (planejamento)'}.</span>
-          <button className="btn-ghost" onClick={() => setSelected(today)}>Voltar para hoje</button>
-        </div>
-      )}
-
-      <div className="sheet grain">
-      <div className="cols">
-        <div className="col">
-          <Brief tasks={dayTasks} events={dayEvents} routine={dayRoutine} isToday={isToday} />
-          <Priorities tasks={dayTasks} />
-          <TaskList tasks={dayTasks} today={today} readOnly={!isToday} />
-        </div>
-        <div className="col">
-          <Agenda events={dayEvents} />
-          <Routine date={selected} readOnly={selected > today} onGoal={bump} />
-          <Goals bumped={bumped} />
-        </div>
-      </div>
-
-      {!isPast && isToday && <CloseDay date={selected} />}
-      </div>
-    </>
+    <article className="day">
+      <Frontispiece today={today} selected={selected} onSelect={setSelected} summary={summary} />
+      <Priorities tasks={dayTasks} suggestion={brief.suggestion} readOnly={!isToday} />
+      <Agenda events={dayEvents} />
+      <DayList date={selected} today={today} tasks={dayTasks} onGoal={bump} />
+      <GoalsLine bumped={bumped} />
+      {isToday && <CloseDay date={selected} />}
+    </article>
   );
 }

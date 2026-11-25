@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useToast } from '@/lib/store';
 import { Icon } from '@/components/ui/ornaments';
 
@@ -14,23 +14,9 @@ const NAV = [
   { href: '/revisoes', label: 'Revisões', icon: Icon.revisoes, soon: true },
 ];
 
-const PRINCIPLES = [
-  'Quando algo novo entra, algo precisa sair.',
-  'Três prioridades. O resto é bônus.',
-  'Espaço livre na agenda também é compromisso.',
-  'Semana difícil pede a versão mínima, não um sistema novo.',
-  'Toda tarefa precisa de uma próxima ação clara.',
-];
-
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const toast = useToast();
-  const [principle, setPrinciple] = useState(PRINCIPLES[0]);
-
-  useEffect(() => {
-    const week = Math.floor(Date.now() / (7 * 864e5));
-    setPrinciple(PRINCIPLES[week % PRINCIPLES.length]);
-  }, []);
 
   useEffect(() => {
     if (!toast.message) return;
@@ -42,31 +28,18 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="app">
-      <aside className="sidebar grain">
-        <Link href="/" className="brand">
-          <span className="brand-name"><span className="mix">Diário</span> da Vida</span>
-          <span className="brand-sub">caderno pessoal</span>
-        </Link>
-
+      <header className="topbar">
+        <Link href="/" className="brand"><span className="mix">Diário</span> da Vida</Link>
         <nav className="nav" aria-label="Seções">
           {NAV.map((n) => (
             <Link key={n.href} href={n.href} aria-current={isActive(n.href) ? 'page' : undefined} className={n.soon ? 'is-soon' : undefined}>
-              {n.icon}
-              <span>{n.label}</span>
+              {n.short ?? n.label}
             </Link>
           ))}
         </nav>
+      </header>
 
-        <div className="principle">
-          <b>princípio da semana</b>
-          <p>{principle}</p>
-          <span className="hand">com carinho, você</span>
-        </div>
-      </aside>
-
-      <main className="main">
-        <div className="main-inner">{children}</div>
-      </main>
+      <main className="main">{children}</main>
 
       <nav className="tabbar" aria-label="Seções">
         {NAV.map((n) => (

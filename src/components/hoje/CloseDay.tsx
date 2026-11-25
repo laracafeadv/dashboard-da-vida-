@@ -38,21 +38,17 @@ export function CloseDay({ date }: { date: string }) {
 
   return (
     <>
-      <section className="feature close-note">
-        <div className="card-head">
-          <h2 className="card-title"><MixTitle text={closed ? 'Dia encerrado' : 'Encerrar o dia'} /></h2>
-          <span className="card-meta">{closed ? `${closed.completed} concluídos · ${closed.moved} para amanhã` : 'um minuto, à noite'}</span>
-        </div>
+      <section className="close-note">
         {closed ? (
-          <>
-            {closed.line ? <p className="script close-line">{closed.line}</p> : <p className="close-text">Sem anotação para hoje.</p>}
-            <button className="btn-ghost" onClick={() => store.reopenDay(date)}>Reabrir o dia</button>
-          </>
+          <p>
+            Dia encerrado: {closed.completed} concluídos, {closed.moved} para amanhã.{' '}
+            {closed.line && <span className="hand">{closed.line}</span>}{' '}
+            <button className="link" onClick={() => store.reopenDay(date)}>reabrir</button>
+          </p>
         ) : (
           <>
-            <p className="close-text">Decida o destino do que ficou aberto e deixe uma linha para a revisão da semana. O que você não decidir vai sozinho para amanhã.</p>
-            <button className="btn" onClick={() => setOpen(true)}>Encerrar o dia</button>
-            <span className="hand close-sign">até amanhã,</span>
+            <button className="btn-ghost" onClick={() => setOpen(true)}>Encerrar o dia</button>
+            <p className="close-text">O que você não decidir segue sozinho para amanhã.</p>
           </>
         )}
       </section>
@@ -60,11 +56,8 @@ export function CloseDay({ date }: { date: string }) {
       <AnimatePresence>
         {open && (
           <motion.div className="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={(e) => e.target === e.currentTarget && setOpen(false)}>
-            <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} role="dialog" aria-modal="true" aria-label="Fechar o dia" className="feature dialog">
-              <div className="card-head">
-                <h2 className="card-title"><MixTitle text="Encerrar o dia" /></h2>
-                <span className="card-meta">um minuto</span>
-              </div>
+            <motion.div initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} role="dialog" aria-modal="true" aria-label="Fechar o dia" className="dialog">
+              <h2 className="section-title"><MixTitle text="Encerrar o dia" /></h2>
               <div className="tally">
                 <div><b className="tabular">{doneCount}</b><span>concluídos</span></div>
                 <div><b className="tabular">{prioDone}/3</b><span>prioridades</span></div>

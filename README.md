@@ -34,6 +34,6 @@ docs/
 
 ## Estado atual
 
-- Identidade "Editorial": só fontes e cores das referências (chocolate, papel creme, vinho; Cormorant Garamond em versais + Instrument Serif itálico nos títulos, Cormorant no texto e assinatura Ms Madi), em grade dividida por fios finos. Aplicada à estrutura e à tela **Hoje**, responsiva. Versões anteriores estão no histórico do git.
+- Identidade "Papel": fontes da referência (Cormorant Garamond em versais + Instrument Serif itálico), papel claro e tinta escura, uma coluna com muito respiro. Tela **Hoje** enxuta: prioridades, agenda, lista do dia (tarefas + rotina), metas em uma linha e encerrar o dia.
 - Motivos visuais em `src/components/ui/vintage.tsx`; cores e fontes em `src/app/globals.css` (`:root`).
 - Os dados ficam no navegador (localStorage). Próximo passo de infraestrutura: Supabase para sincronizar celular e computador.
