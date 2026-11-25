@@ -1,5 +1,3 @@
-export type Direction = 'gabinete' | 'almanaque' | 'deco';
-
 export interface Task {
   id: string;
   title: string;

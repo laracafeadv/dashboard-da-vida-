@@ -37,14 +37,14 @@ export default async function Secao({ params }: { params: Promise<{ secao: strin
   const s = SECOES[secao];
   if (!s) notFound();
   return (
-    <div className="front" style={{ paddingTop: 40 }}>
-      <div className="front-line"><span>{s.fase}</span><span /><span>Em construção</span></div>
-      <h1 className="front-title">{s.titulo}</h1>
-      <section className="card" style={{ maxWidth: 640, margin: '28px auto 0', textAlign: 'left' }}>
+    <div className="soon-page">
+      <p className="eyebrow">{s.fase} · em construção</p>
+      <h1>{s.titulo}</h1>
+      <section className="paper">
         <ul className="list">
-          {s.itens.map((i) => <li key={i} className="row" style={{ gridTemplateColumns: '1fr' }}>{i}</li>)}
+          {s.itens.map((i) => <li key={i} className="soon-item">{i}</li>)}
         </ul>
-        <p style={{ marginTop: 16 }}><Link className="btn-ghost" href="/">Voltar para Hoje</Link></p>
+        <p style={{ marginTop: 20, textAlign: 'center' }}><Link className="btn-ghost" href="/">Voltar para Hoje</Link></p>
       </section>
     </div>
   );

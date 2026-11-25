@@ -1,17 +1,36 @@
-'use client';
-import { useStore } from '@/lib/store';
-import { Ornament } from '@/components/ui/ornaments';
+import { Flourish } from '@/components/ui/vintage';
 
-interface Props { title: string; meta?: React.ReactNode; className?: string; children: React.ReactNode }
+type Variant = 'paper' | 'stamp' | 'note';
 
-export function Card({ title, meta, className, children }: Props) {
-  const dir = useStore((s) => s.direction);
+interface Props {
+  title: string;
+  meta?: React.ReactNode;
+  variant?: Variant;
+  flourish?: boolean;
+  className?: string;
+  children: React.ReactNode;
+}
+
+/** Cartão do caderno. `paper` para o dia a dia, `stamp` e `note` para momentos especiais. */
+export function Card({ title, meta, variant = 'paper', flourish, className, children }: Props) {
+  const head = (
+    <div className="card-head">
+      {flourish && <Flourish className="flourish" />}
+      <h2 className="card-title">{title}</h2>
+      {meta && <span className="card-meta">{meta}</span>}
+    </div>
+  );
+
+  if (variant === 'stamp')
+    return (
+      <section className={`stamp ${className ?? ''}`}>
+        <div className="stamp-in">{head}{children}</div>
+      </section>
+    );
+
   return (
-    <section className={`card ${className ?? ''}`}>
-      <div className="card-head">
-        <h2 className="card-title"><Ornament dir={dir} className="orn" />{title}</h2>
-        {meta && <span className="card-meta">{meta}</span>}
-      </div>
+    <section className={`${variant} ${className ?? ''}`}>
+      {head}
       {children}
     </section>
   );

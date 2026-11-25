@@ -34,5 +34,6 @@ docs/
 
 ## Estado atual
 
-- Fase 0–1: tela **Hoje** funcional, três direções visuais (Gabinete, Almanaque, Déco), responsiva.
+- Etapa 2: identidade "Carta" (xadrez bordô, papel creme, selo postal, lacre, renda) aplicada à estrutura e à tela **Hoje**, responsiva.
+- Motivos visuais em `src/components/ui/vintage.tsx`; cores e fontes em `src/app/globals.css` (`:root`).
 - Os dados ficam no navegador (localStorage). Próximo passo de infraestrutura: Supabase para sincronizar celular e computador.

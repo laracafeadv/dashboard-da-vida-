@@ -2,10 +2,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect } from 'react';
-import { useStore, useToast } from '@/lib/store';
-import type { Direction } from '@/lib/types';
-import { Icon, Seal } from '@/components/ui/ornaments';
+import { useEffect, useState } from 'react';
+import { useToast } from '@/lib/store';
+import { Icon } from '@/components/ui/ornaments';
+import { WaxSeal } from '@/components/ui/vintage';
 
 const NAV = [
   { href: '/', label: 'Hoje', icon: Icon.hoje },
@@ -15,29 +15,23 @@ const NAV = [
   { href: '/revisoes', label: 'Revisões', icon: Icon.revisoes, soon: true },
 ];
 
-const DIRS: { id: Direction; label: string; swatch: string[] }[] = [
-  { id: 'gabinete', label: 'Gabinete', swatch: ['#1e3b30', '#a98448', '#f5eedf'] },
-  { id: 'almanaque', label: 'Almanaque', swatch: ['#1c2742', '#b5412b', '#f7f1e3'] },
-  { id: 'deco', label: 'Déco', swatch: ['#121929', '#b8975b', '#efe6d1'] },
-];
-
 const PRINCIPLES = [
   'Quando algo novo entra, algo precisa sair.',
   'Três prioridades. O resto é bônus.',
   'Espaço livre na agenda também é compromisso.',
-  'Semana ruim não pede sistema novo; pede a versão mínima.',
+  'Semana difícil pede a versão mínima, não um sistema novo.',
   'Toda tarefa precisa de uma próxima ação clara.',
 ];
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const direction = useStore((s) => s.direction);
-  const setDirection = useStore((s) => s.setDirection);
   const toast = useToast();
+  const [principle, setPrinciple] = useState(PRINCIPLES[0]);
 
   useEffect(() => {
-    document.documentElement.dataset.dir = direction;
-  }, [direction]);
+    const week = Math.floor(Date.now() / (7 * 864e5));
+    setPrinciple(PRINCIPLES[week % PRINCIPLES.length]);
+  }, []);
 
   useEffect(() => {
     if (!toast.message) return;
@@ -45,45 +39,29 @@ export function Shell({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(t);
   }, [toast.key, toast.message, toast.hide]);
 
-  const week = Math.floor(Date.now() / (7 * 864e5));
-  const principle = PRINCIPLES[week % PRINCIPLES.length];
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
   return (
     <div className="app">
       <aside className="sidebar">
-        <div className="brand">
-          <Seal className="seal" />
-          <div>
-            <div className="brand-name">Diário da Vida</div>
-            <span className="brand-sub">Caderno pessoal</span>
-          </div>
-        </div>
+        <Link href="/" className="brand">
+          <WaxSeal id="brand-seal" />
+          <span className="brand-name">Diário <em>da</em> Vida</span>
+          <span className="brand-sub">caderno pessoal</span>
+        </Link>
 
         <nav className="nav" aria-label="Seções">
-          <div className="nav-label">Seções</div>
           {NAV.map((n) => (
-            <Link key={n.href} href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>
+            <Link key={n.href} href={n.href} aria-current={isActive(n.href) ? 'page' : undefined} className={n.soon ? 'is-soon' : undefined}>
               {n.icon}
               {n.label}
-              {n.soon && <span className="soon">em breve</span>}
             </Link>
           ))}
         </nav>
 
-        <div className="side-foot">
-          <div className="principle">
-            <b>Princípio da semana</b>
-            <q>{principle}</q>
-          </div>
-          <div className="dir-picker" role="group" aria-label="Direção visual">
-            {DIRS.map((d) => (
-              <button key={d.id} aria-pressed={direction === d.id} onClick={() => setDirection(d.id)}>
-                <i>{d.swatch.map((c) => <span key={c} style={{ background: c }} />)}</i>
-                {d.label}
-              </button>
-            ))}
-          </div>
+        <div className="side-note">
+          <b>Princípio da semana</b>
+          <p>{principle}</p>
         </div>
       </aside>
 

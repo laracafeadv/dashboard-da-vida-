@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { longDate, todayISO, weekdayName } from '@/lib/dates';
 import { routineFor, tasksFor, useStore, useToast } from '@/lib/store';
 import { Frontispiece } from '@/components/hoje/Frontispiece';
-import { Capture } from '@/components/hoje/Capture';
 import { Brief } from '@/components/hoje/Brief';
 import { Priorities, TaskList } from '@/components/hoje/Tasks';
 import { Agenda, Goals, Routine } from '@/components/hoje/Context';
@@ -51,8 +50,6 @@ export default function HojePage() {
           <button className="btn-ghost" onClick={() => setSelected(today)}>Voltar para hoje</button>
         </div>
       )}
-
-      <Capture today={today} />
 
       <div className="cols">
         <div className="col">

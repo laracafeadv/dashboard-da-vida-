@@ -15,7 +15,7 @@ function Check({ task }: { task: Task }) {
   const toggle = useStore((s) => s.toggleTask);
   return (
     <button className="check" role="checkbox" aria-checked={task.done} aria-label={`Concluir: ${task.title}`} onClick={() => toggle(task.id)}>
-      {task.done && Icon.check}
+      
     </button>
   );
 }
@@ -58,7 +58,7 @@ export function Priorities({ tasks, readOnly }: { tasks: Task[]; readOnly?: bool
   const done = stars.filter((t) => t.done).length;
   const slots = Array.from({ length: MAX_PRIORITIES - stars.length });
   return (
-    <Card title="Três prioridades" meta={`${done} de ${stars.length || 0} feitas`} className="prio">
+    <Card title="Três prioridades" meta={`${done} de ${stars.length || 0} feitas`} variant="stamp" flourish className="prio">
       <ul className="list">
         <AnimatePresence initial={false}>
           {stars.map((t, i) => (
@@ -75,7 +75,7 @@ export function Priorities({ tasks, readOnly }: { tasks: Task[]; readOnly?: bool
         {slots.map((_, i) => (
           <li key={`slot-${i}`} className="row">
             <span className="num ghost">{stars.length + i + 1}</span>
-            <span className="slot">Vaga livre. Toque na estrela de uma tarefa.</span>
+            <span className="slot">Vaga livre: toque na estrela de uma tarefa.</span>
             <span />
           </li>
         ))}

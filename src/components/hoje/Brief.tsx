@@ -12,7 +12,7 @@ export function Brief({ tasks, events, routine, isToday }: Props) {
   const b = buildBriefing(tasks, events, routine, isToday);
 
   return (
-    <Card title={isToday ? 'Resumo da manhã' : 'Resumo do dia'} meta={<span className="stamp">escrito sozinho</span>} className="brief">
+    <Card title={isToday ? 'Resumo da manhã' : 'Resumo do dia'} meta="escrito sozinho" className="brief">
       {b.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
       <div className="acts">
         {b.suggestion ? (
@@ -20,10 +20,10 @@ export function Brief({ tasks, events, routine, isToday }: Props) {
             <button className="btn" onClick={() => { if (toggleStar(b.suggestion!.id)) toast('Sugestão aceita: virou prioridade.'); }}>
               Priorizar “{b.suggestion.title.length > 34 ? b.suggestion.title.slice(0, 32) + '…' : b.suggestion.title}”
             </button>
-            <span className="note">Sugestão para completar as três prioridades.</span>
+            <span className="hint">Sugestão para completar as três prioridades.</span>
           </>
         ) : (
-          <span className="note">Prioridades definidas. Na próxima fase, a IA escreve este resumo lendo sua agenda real.</span>
+          <span className="hint">Prioridades definidas. Na próxima fase, a IA escreve este resumo lendo sua agenda real.</span>
         )}
       </div>
     </Card>

@@ -4,13 +4,12 @@ import { persist } from 'zustand/middleware';
 import { addDays, diffDays, fromISO, nextMonday, todayISO } from './dates';
 import type { ParsedCapture } from './parse';
 import { sampleData } from './sample';
-import type { CalendarEvent, CloseChoice, DayClose, Direction, Goal, RoutineItem, Task, TriageAction } from './types';
+import type { CalendarEvent, CloseChoice, DayClose, Goal, RoutineItem, Task, TriageAction } from './types';
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 export const MAX_PRIORITIES = 3;
 
 interface State {
-  direction: Direction;
   tasks: Task[];
   goals: Goal[];
   routine: RoutineItem[];
@@ -20,7 +19,6 @@ interface State {
   focos: string[];
   lastSeen: string;
 
-  setDirection: (d: Direction) => void;
   /** Leva para hoje o que ficou aberto em dias anteriores. Retorna quantas tarefas migraram. */
   rollover: (today: string) => number;
   addTask: (p: ParsedCapture) => { ok: boolean; demoted: boolean };
@@ -45,13 +43,10 @@ export const tasksFor = (tasks: Task[], date: string) => tasks.filter((t) => t.d
 export const useStore = create<State>()(
   persist(
     (set, get) => ({
-      direction: 'gabinete',
       ...sampleData(todayISO()),
       routineDone: {},
       closes: {},
       lastSeen: todayISO(),
-
-      setDirection: (direction) => set({ direction }),
 
       rollover: (today) => {
         let moved = 0;
@@ -151,7 +146,7 @@ export const useStore = create<State>()(
         set({ ...sampleData(today), routineDone: {}, closes: {}, lastSeen: today });
       },
     }),
-    { name: 'diario-da-vida', version: 1 },
+    { name: 'diario-da-vida', version: 2, migrate: (s) => s as State },
   ),
 );
 

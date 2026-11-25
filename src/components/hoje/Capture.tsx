@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react';
 import { parseCapture } from '@/lib/parse';
 import { relativeLabel } from '@/lib/dates';
 import { useStore, useToast } from '@/lib/store';
-import { Icon } from '@/components/ui/ornaments';
 
 export function Capture({ today }: { today: string }) {
   const [value, setValue] = useState('');
@@ -22,26 +21,25 @@ export function Capture({ today }: { today: string }) {
   };
 
   return (
-    <form className="card capture" onSubmit={submit} autoComplete="off">
-      <label className="eyebrow" htmlFor="capture">Anotar · escreva como falaria</label>
+    <form className="capture" onSubmit={submit} autoComplete="off">
       <div className="capture-row">
-        <span className="pen" aria-hidden="true">{Icon.pen}</span>
+        <label htmlFor="capture">Anotar</label>
         <input id="capture" value={value} onChange={(e) => setValue(e.target.value)} placeholder="pagar IPVA sexta 15h #finanças !" />
-        <button className="btn" type="submit">Anotar</button>
+        <button className="btn" type="submit">Guardar</button>
       </div>
       <div className="parse" aria-live="polite">
         {parsed ? (
           <>
             <span className="pchip">“{parsed.title || '…'}”</span>
-            <span className="pchip">{Icon.calendar}{relativeLabel(parsed.date, today)}{parsed.time ? ` · ${parsed.time}` : ''}</span>
+            <span className="pchip">{relativeLabel(parsed.date, today)}{parsed.time ? ` · ${parsed.time}` : ''}</span>
             {parsed.area && <span className="pchip">{parsed.area}</span>}
-            {parsed.star && <span className="pchip">{Icon.star}prioridade</span>}
-            {parsed.waiting && <span className="pchip">{Icon.user}aguardando alguém</span>}
+            {parsed.star && <span className="pchip">prioridade</span>}
+            {parsed.waiting && <span className="pchip">aguardando alguém</span>}
           </>
         ) : (
           <span>
-            Entende <code>hoje</code> <code>amanhã</code> <code>sexta</code> <code>dia 10</code> <code>03/12</code> <code>15h</code>{' '}
-            <code>#área</code> · <code>!</code> prioridade · <code>@espera</code> aguardando alguém
+            Escreva como falaria. Entende <code>amanhã</code> <code>sexta</code> <code>dia 10</code> <code>15h</code> <code>#área</code>,{' '}
+            <code>!</code> para prioridade e <code>@espera</code> quando depende de alguém.
           </span>
         )}
       </div>

@@ -8,7 +8,7 @@ import { Card } from './Card';
 export function Agenda({ events }: { events: CalendarEvent[] }) {
   const sorted = [...events].sort((a, b) => a.start.localeCompare(b.start));
   return (
-    <Card title="Agenda" meta={<span className="source">{Icon.calendar}exemplo</span>}>
+    <Card title="Agenda" meta="exemplo · Google Agenda em breve">
       {sorted.length === 0 ? (
         <p className="empty">Nenhum compromisso. Dia aberto.</p>
       ) : (
@@ -46,7 +46,7 @@ export function Routine({ date, readOnly, onGoal }: { date: string; readOnly?: b
   };
 
   return (
-    <Card title="Rotina do dia" meta={<span className="stamp">gerada sozinha</span>} className="rot">
+    <Card title="Rotina do dia" meta="gerada pela sua rotina" className="rot">
       <ul className="list">
         {items.map((r) => {
           const isDone = !!done[routineKey(date, r.id)];
@@ -54,7 +54,7 @@ export function Routine({ date, readOnly, onGoal }: { date: string; readOnly?: b
           return (
             <li key={r.id} className={`row${isDone ? ' is-done' : ''}`}>
               <button className="check" role="checkbox" aria-checked={isDone} aria-label={`Concluir: ${r.title}`} disabled={readOnly} onClick={() => click(r.id)}>
-                {isDone && Icon.check}
+                
               </button>
               <div>
                 <div className="row-title">{r.title}</div>
